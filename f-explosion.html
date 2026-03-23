@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Press F: World Explosion</title>
+  <link rel="stylesheet" href="f-explosion.css" />
+</head>
+<body>
+  <div class="space-bg"></div>
+  <div id="flash"></div>
+
+  <main class="scene">
+    <h1>PRESS <span>F</span> TO END THE WORLD</h1>
+    <p id="status">Click the button or press F on your keyboard.</p>
+
+    <div id="world" aria-label="The world"></div>
+
+    <div class="controls">
+      <button id="explodeBtn" type="button">F</button>
+      <button id="restartBtn" type="button" hidden>Restart Reality</button>
+    </div>
+  </main>
+
+  <script src="f-explosion.js"></script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+:root {
+  --bg1: #050711;
+  --bg2: #12091f;
+  --accent: #ff3d2e;
+  --text: #eef3ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+  background: radial-gradient(circle at 50% 20%, #1e1238 0%, var(--bg1) 50%, #010204 100%);
+  overflow: hidden;
+}
+
+.space-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(2px 2px at 10% 20%, #ffffff88 30%, transparent 31%),
+    radial-gradient(2px 2px at 80% 30%, #ffffff80 30%, transparent 31%),
+    radial-gradient(1px 1px at 30% 80%, #ffffff88 30%, transparent 31%),
+    radial-gradient(1px 1px at 60% 60%, #ffffff99 30%, transparent 31%),
+    radial-gradient(2px 2px at 90% 75%, #ffffff77 30%, transparent 31%);
+  opacity: 0.8;
+}
+
+#flash {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle, #fff5dd 0%, #ffca6f 20%, #ff6f20 45%, transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.scene {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  gap: 16px;
+  min-height: 100vh;
+  text-align: center;
+  padding: 20px;
+}
+
+h1 {
+  margin: 0;
+  letter-spacing: 1px;
+  font-size: clamp(1.2rem, 3.8vw, 2.4rem);
+  text-shadow: 0 0 14px #000;
+}
+
+h1 span {
+  color: #ffd166;
+}
+
+#status {
+  margin: 0;
+  opacity: 0.9;
+}
+
+#world {
+  width: min(52vw, 320px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  position: relative;
+  background:
+    radial-gradient(circle at 30% 30%, #62c7ff 0%, #1c8ecf 28%, #1570b9 46%, #0d3762 90%),
+    radial-gradient(circle at 60% 80%, #2fb65a 0%, #227d41 50%, transparent 60%);
+  box-shadow:
+    inset -22px -30px 30px #052036aa,
+    0 0 45px #6bc9ff66;
+  transition: transform 0.2s ease-out, filter 0.5s ease-out, opacity 0.7s ease-out;
+}
+
+#world::before,
+#world::after {
+  content: "";
+  position: absolute;
+  inset: 16%;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+}
+
+#world::before {
+  border: 2px dashed #ffd08f;
+}
+
+#world::after {
+  border: 2px solid #ff7c4b;
+  filter: blur(2px);
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+}
+
+button {
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 22px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+#explodeBtn {
+  font-size: 1.8rem;
+  min-width: 74px;
+  color: #1a0907;
+  background: linear-gradient(180deg, #ffd166 0%, #ff9a2e 100%);
+  box-shadow: 0 6px 20px #ff9a2e55;
+}
+
+#restartBtn {
+  color: #ecf4ff;
+  background: #202534;
+  border: 1px solid #434e73;
+}
+
+.particle {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: var(--color);
+  pointer-events: none;
+  z-index: 90;
+  animation: blast 1.9s cubic-bezier(0.15, 0.9, 0.2, 1) forwards;
+}
+
+@keyframes blast {
+  from {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.2);
+    opacity: 0;
+  }
+}
+
+@keyframes shake {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  20% { transform: translate(-6px, 4px) rotate(-0.8deg); }
+  40% { transform: translate(6px, -2px) rotate(0.7deg); }
+  60% { transform: translate(-4px, -4px) rotate(-0.5deg); }
+  80% { transform: translate(3px, 5px) rotate(0.4deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+body.exploding .scene {
+  animation: shake 120ms linear 8;
+}
+
+body.exploding #flash {
+  animation: flashbang 950ms ease-out forwards;
+}
+
+@keyframes flashbang {
+  0% { opacity: 0; }
+  15% { opacity: 0.95; }
+  100% { opacity: 0; }
+}
+
+body.exploding #world {
+  transform: scale(1.22);
+  filter: brightness(2.2) saturate(2.4);
+}
+
+body.aftermath #world {
+  opacity: 0.08;
+  filter: grayscale(1) blur(2px);
+}
+
+body.aftermath #world::before,
+body.aftermath #world::after {
+  opacity: 1;
+}
